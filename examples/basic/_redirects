@@ -1,0 +1,14 @@
+# Host-level: Caddy does this in a site block
+https://www.example.com/*  https://example.com/:splat  301
+
+# A page that moved
+/about-us                  /about                      301
+
+# A section that moved, with everything under it
+/blog/*                    /news/:splat                301
+
+# Dated addresses to flat ones
+/news/:year/:month/:slug   /news/:slug                 308
+
+# No status: Cloudflare Pages' default is 302
+/sale                      /offers

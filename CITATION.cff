@@ -1,0 +1,24 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+type: software
+title: "pages-to-caddy"
+abstract: >-
+  Translates Cloudflare Pages and Netlify _headers and _redirects files into
+  Caddyfile directives, and refuses, naming the line, any rule it cannot
+  translate faithfully.
+authors:
+  - name: "TicketWave HQ Ltd"
+    website: "https://ticketwavehq.com"
+version: "0.1.0"
+date-released: "2026-11-10"
+license: MIT
+repository-code: "https://github.com/TicketWaveHQ/pages-to-caddy"
+keywords:
+  - caddy
+  - caddyfile
+  - cloudflare-pages
+  - netlify
+  - redirects
+  - http-headers
+  - static-site
+  - migration

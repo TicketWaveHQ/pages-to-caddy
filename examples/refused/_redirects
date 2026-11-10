@@ -1,0 +1,5 @@
+/shop/*        /store/:splat   200
+/old-page      /new-page       301!
+/search q=:q   /find/:q        301
+/blog/*        /news/:splat    301
+/blog/archive  /news/archive   301

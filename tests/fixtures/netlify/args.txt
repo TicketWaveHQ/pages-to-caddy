@@ -1,0 +1,1 @@
+--platform netlify --site-dir {fixture}/site

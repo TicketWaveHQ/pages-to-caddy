@@ -1,0 +1,37 @@
+# Every construct the Cloudflare Pages profile translates in _headers.
+/*
+	X-Content-Type-Options: nosniff
+	Content-Security-Policy: default-src 'self'
+
+# A host-level path is skipped and reported
+https://preview.example.com/*
+	X-Robots-Tag: noindex
+
+/
+	Cache-Control: public, max-age=300
+
+/static/*
+	Cache-Control: public, max-age=31536000, immutable
+
+# Detach a header that /* attached (the example in Cloudflare's docs)
+/*.jpg
+	! Content-Security-Policy
+
+# A placeholder used in a value (also from Cloudflare's docs)
+/movies/:title
+	x-movie-name: You are watching ":title"
+
+# A splat in the middle of a path
+/files/*/raw
+	Content-Type: text/plain; charset=utf-8
+
+# Percent-encoded paths are decoded, as Caddy matches the decoded path
+/caf%C3%A9
+	Content-Language: fr
+
+# A placeholder and a splat, both used in one value
+/print/:id/*
+	Link: </articles/:id/:splat>; rel="canonical"
+
+# A path with nothing under it is noted, not translated
+/nothing-here

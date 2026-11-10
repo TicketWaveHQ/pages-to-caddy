@@ -1,0 +1,14 @@
+# Every construct the Netlify profile translates in _headers.
+/*
+  X-Frame-Options: DENY
+
+/images/*.png
+  Cache-Control: public, max-age=86400
+
+# Wildcards anywhere in a segment, more than one
+/*/print/*
+  X-Robots-Tag: noindex
+
+# A placeholder as a whole segment; the value is literal on Netlify
+/docs/:page
+  X-Docs: yes

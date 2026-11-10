@@ -1,0 +1,13 @@
+# Every construct the Netlify profile translates in _redirects.
+https://www.example.com/*  https://example.com/:splat  301!
+
+# No status: Netlify's default is 301
+/home                /
+
+/temporary           /elsewhere      302
+/old-docs/*          /docs/:splat
+/news/:year/:slug    /articles/:slug 301
+/forced              /docs/          301!
+
+# Matches with or without a trailing slash, so this never applies
+/home/               /other

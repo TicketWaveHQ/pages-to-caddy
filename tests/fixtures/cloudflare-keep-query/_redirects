@@ -1,0 +1,3 @@
+/a        /b             301
+/blog/*   /news/:splat   301
+/out      https://elsewhere.example.com/landing 302

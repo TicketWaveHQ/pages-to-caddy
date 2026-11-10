@@ -1,0 +1,57 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Python ${{ matrix.python }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ["3.10", "3.11", "3.12", "3.13", "3.14"]
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Run the tests
+        run: python -m unittest -v
+
+  caddy:
+    name: Output checked by Caddy
+    runs-on: ubuntu-latest
+    env:
+      CADDY_VERSION: "2.11.9"
+      # Fail, rather than skip, if Caddy did not install.
+      PAGES_TO_CADDY_REQUIRE_CADDY: "1"
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.13"
+      - name: Install Caddy
+        run: |
+          set -euo pipefail
+          base="https://github.com/caddyserver/caddy/releases/download/v${CADDY_VERSION}"
+          tarball="caddy_${CADDY_VERSION}_linux_amd64.tar.gz"
+          sums="caddy_${CADDY_VERSION}_checksums.txt"
+          curl -fsSLO "${base}/${tarball}"
+          curl -fsSLO "${base}/${sums}"
+          expected=$(awk -v f="${tarball}" '$2 == f { print $1 }' "${sums}")
+          case "${#expected}" in
+            128) echo "${expected}  ${tarball}" | sha512sum -c - ;;
+            64) echo "${expected}  ${tarball}" | sha256sum -c - ;;
+            *) echo "no checksum for ${tarball} in ${sums}" >&2; exit 1 ;;
+          esac
+          tar -xzf "${tarball}" caddy
+          sudo install -m 0755 caddy /usr/local/bin/caddy
+          caddy version
+      - name: Run the tests, Caddy checks included
+        run: python -m unittest -v

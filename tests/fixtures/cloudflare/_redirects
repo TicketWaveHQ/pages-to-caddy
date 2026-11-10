@@ -1,0 +1,21 @@
+# Every construct the Cloudflare Pages profile translates in _redirects.
+/a                   /b
+/c                   /d                          301
+/e                   /f                          303
+/g                   /h                          307
+/i                   /j                          308
+/old/*               /new/:splat                 301
+/docs/*/index.html   /docs/:splat                301
+/u/:user/posts/:id   /posts/:id?by=:user         301
+/ext                 https://elsewhere.example.com/landing 302
+/ext/*               https://elsewhere.example.com/:splat  301
+/caf%C3%A9           /cafe                       301
+/trailing            /trailing/                  301
+/notrailing/         /notrailing                 301
+
+# Never applies: line 2 has the same source
+/a                   /z                          301
+
+# Host-level rules are skipped and reported
+http://example.com/*     https://example.com/:splat  301
+old.example.com/*            https://example.com/:splat  301
